@@ -1,0 +1,36 @@
+---
+# - hosts: all
+#   become: True
+#   roles:
+#     - common
+#   vars_files:
+#     - "group_vars/main.yml"
+
+# - hosts: gluster
+#   become: True
+#   roles:
+#     - gluster
+#   vars_files:
+#     - "group_vars/main.yml"
+
+- hosts: heketi
+  become: True
+  roles:
+    - heketi
+  vars_files:
+    - "group_vars/main.yml"
+
+# - hosts: docker
+#   become: True
+#   roles:
+#     - docker
+#   vars_files:
+#     - "group_vars/main.yml"
+
+- hosts: rke
+  become: True
+  roles:
+    - rke
+  vars_files:
+    - "group_vars/rke.yml"
+  

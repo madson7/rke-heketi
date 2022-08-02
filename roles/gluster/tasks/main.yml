@@ -1,0 +1,41 @@
+- name: install glusterfs
+  apt: name={{ item }} state=present
+  with_items:
+    - glusterfs-server
+
+- name: start glusterd
+  service: name=glusterd state=started enabled=yes
+
+- name: "Get number of peers"
+  shell: gluster peer status | head -1 | cut -d ":" -f 2 |  tr -d '[:space:]'
+  register: gluster_peers_connected_count
+  changed_when: False
+  
+- debug:
+    var: gluster_peers_connected_count
+
+- name: "WHAT 1"
+  debug:
+    msg: "{{ gluster_peers_connected_count.stdout | int }}"
+
+- name: "WHAT 2"
+  debug:
+    msg: "{{ groups.gluster | length | int }}"
+
+- name: "Set number of connected peers and number of expected peers as fact"
+  set_fact:
+    gluster_peers_num_expected: "{{ groups.gluster | length | int }}"
+    gluster_peers_num_connected: "{{ gluster_peers_connected_count.stdout | int }}"
+
+- debug:
+    var: gluster_peers_num_expected
+
+- debug:
+    var: gluster_peers_num_connected
+
+# It looks that 'run_once: true' does not work here as it returns always false.
+# Therefore the check for the inventory_hostname is used.
+- name: "Connect peers"
+  shell: gluster peer probe {{ item }}
+  with_items: "{{ groups.gluster }}"
+  when: inventory_hostname == groups.gluster[0] and gluster_peers_num_expected != gluster_peers_num_connected

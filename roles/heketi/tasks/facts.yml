@@ -2,8 +2,8 @@
 
 - name: set_facts | Define commons facts
   set_fact:
-    install_arch: "{{ heketi_install_arch | default('amd64') }}"
-    install_version: "{{ heketi_install_version }}"
+    install_arch: "{{heketi_install_arch | default('amd64')}}"
+    install_version: "{{heketi_install_version}}"
 
 - name: set_facts | Check Heketi required 'heketi_install_arch' parameter value
   fail:

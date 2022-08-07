@@ -13,13 +13,6 @@
 #   vars_files:
 #     - "group_vars/main.yml"
 
-- hosts: heketi
-  become: True
-  roles:
-    - heketi
-  vars_files:
-    - "group_vars/main.yml"
-
 # - hosts: docker
 #   become: True
 #   roles:
@@ -27,10 +20,17 @@
 #   vars_files:
 #     - "group_vars/main.yml"
 
-- hosts: rke
-  become: True
-  roles:
-    - rke
-  vars_files:
-    - "group_vars/rke.yml"
+# - hosts: heketi
+#   become: True
+#   roles:
+#     - heketi
+#   vars_files:
+#     - "group_vars/main.yml"
+
+# - hosts: rke
+#   become: True
+#   roles:
+#     - rke
+#   vars_files:
+#     - "group_vars/rke.yml"
   

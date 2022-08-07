@@ -5,7 +5,7 @@ infra_node_ssh_pass: admin
 node_source_ssh_keyfile: "~/.ssh/id_rsa"
 node_source_ssh_keyfile_pub: "~/.ssh/id_rsa.pub"
 
-glusterfs_hosts_count: "{{ groups.gluster | length }}"
+glusterfs_hosts_count: "{{groups.gluster | length}}"
 
 ### Heketi Download variables
 heketi_install_arch: 'amd64'
@@ -13,10 +13,10 @@ heketi_install_release: '10'
 heketi_install_version: '10.4.0'
 heketi_dl_base_url: "https://github.com/heketi/heketi/releases/download"
 
-dl_url: "{{ heketi_dl_base_url }}/v{{ heketi_install_version }}/heketi-v{{ heketi_install_version }}-release-{{ heketi_install_release }}.linux.{{ heketi_install_arch }}.tar.gz"
-dl_c_url: "{{ heketi_dl_base_url }}/v{{ heketi_install_version }}/heketi-client-v{{ heketi_install_version }}-release-{{ heketi_install_release }}.linux.{{ heketi_install_arch }}.tar.gz"
-dl_file: "/tmp/heketi-v{{ heketi_install_version }}-release-{{ heketi_install_release }}.linux.{{ heketi_install_arch }}.tar.gz"
-dl_c_file: "/tmp/heketi-client-v{{ heketi_install_version }}-release-{{ heketi_install_release }}.linux.{{ heketi_install_arch }}.tar.gz"
+dl_url: "{{heketi_dl_base_url}}/v{{heketi_install_version}}/heketi-v{{heketi_install_version}}-release-{{heketi_install_release}}.linux.{{heketi_install_arch}}.tar.gz"
+dl_c_url: "{{heketi_dl_base_url}}/v{{heketi_install_version}}/heketi-client-v{{heketi_install_version}}-release-{{heketi_install_release}}.linux.{{heketi_install_arch}}.tar.gz"
+dl_file: "/tmp/heketi-v{{heketi_install_version}}-release-{{heketi_install_release}}.linux.{{heketi_install_arch}}.tar.gz"
+dl_c_file: "/tmp/heketi-client-v{{heketi_install_version}}-release-{{heketi_install_release}}.linux.{{heketi_install_arch}}.tar.gz"
 
 heketi_install_dir: '/etc/heketi'
 heketi_install_client_dir: '/etc/heketi-client'
@@ -80,7 +80,7 @@ heketi_node_max_bricks_per_volume: 33
 heketi_config_topology_nodes:
   - zone: 1
     manage_host_names:
-      - "{{ groups.all.0 }}"
+      - "{{groups.all.0}}"
     storage_host_names:
       - "192.168.10.100"
     devices:
@@ -90,7 +90,7 @@ heketi_config_topology_nodes:
         destroydata: false
   - zone: 1
     manage_host_names:
-      - "{{ groups.all.1 }}"
+      - "{{groups.all.1}}"
     storage_host_names:
       - "192.168.10.101"
     devices:
@@ -100,7 +100,7 @@ heketi_config_topology_nodes:
         destroydata: false
   - zone: 1
     manage_host_names:
-      - "{{ groups.all.2 }}"
+      - "{{groups.all.2}}"
     storage_host_names:
       - "192.168.10.102"
     devices:
@@ -114,7 +114,8 @@ heketi_node_executor: 'ssh'
 heketi_node_ssh_user: 'infra'
 heketi_node_ssh_port: '22'
 heketi_node_source_ssh_keyfile: "group_vars/files/ed25519"
-# heketi_node_source_ssh_keyfile_pub: "group_vars/files/ed25519.pub"
+heketi_node_source_ssh_keyfile_pub: "group_vars/files/ed25519.pub"
+heketi_node_tmp_ssh_keyfile_pub: "ed25519.pub"
 heketi_node_ssh_keyfile: "/etc/heketi/heketi_key"
 
 # command: "heketi-cli topology load --user madson --json=/etc/heketi-client/heketi-topology.json"

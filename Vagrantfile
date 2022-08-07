@@ -34,7 +34,7 @@ Vagrant.configure("2") do |config|
                     ansible.groups = {
                         "gluster" => (0..NODES-1).map {|j| "node#{j}"},
                         "docker" => (0..NODES-1).map {|j| "node#{j}"},
-                        "heketi" => ["node0"]
+                        # "heketi" => ["node0"]
                     }
                 end
             end

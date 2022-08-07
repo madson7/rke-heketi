@@ -6,5 +6,5 @@
   register: node_list
 
 - name: "initialize cluster | Topology load"
-  command: "heketi-cli topology load --user {{ heketi_user }} --secret {{ heketi_admin_token }} --json={{ heketi_config_client_dir }}/{{ heketi_config_client_filename }}"
+  command: "heketi-cli topology load --user={{heketi_user}} --secret={{heketi_admin_token}} --json={{heketi_config_client_dir}}/{{heketi_config_client_filename}}"
   when: (node_list.stdout | int < glusterfs_hosts_count | int) and heketi_inititalize_cluster

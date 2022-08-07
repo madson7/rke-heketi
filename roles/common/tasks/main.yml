@@ -1,5 +1,5 @@
 - name: "pre_task | install packages"
-  apt: name={{ item }} state=present
+  apt: name={{item}} state=present
   with_items:
     - wget
     - nano
@@ -10,16 +10,16 @@
 - name: "pre_task | Add IP address of all hosts to all hosts"
   lineinfile:
     dest: /etc/hosts
-    regexp: '.*{{ item }}$'
-    line: "{{ hostvars[item].ansible_host }} {{item}}"
+    regexp: '.*{{item}}$'
+    line: "{{hostvars[item].ansible_host}} {{item}}"
     state: present
   when: hostvars[item].ansible_host is defined
-  with_items: "{{ groups.all }}"
+  with_items: "{{groups.all}}"
 
 - name: "pre_task | Create ssh user for infra"
   user:
-    name: "{{ infra_node_ssh_user }}"
-    password: "{{ infra_node_ssh_pass | password_hash('sha512') }}"
+    name: "{{infra_node_ssh_user}}"
+    password: "{{infra_node_ssh_pass | password_hash('sha512')}}"
     groups: 
       - sudo
     append: yes
@@ -32,10 +32,10 @@
 
 - name: "pre_task | Ensure that ssh directory for infra user exist"
   file:
-    path: "/home/{{ infra_node_ssh_user }}/.ssh"
+    path: "/home/{{infra_node_ssh_user}}/.ssh"
     state: directory
-    owner: "{{ infra_node_ssh_user }}"
-    group: "{{ infra_node_ssh_user }}"
+    owner: "{{infra_node_ssh_user}}"
+    group: "{{infra_node_ssh_user}}"
     mode: '0755'
   when: infra_node_ssh_user != 'root'
   tags:
@@ -43,10 +43,10 @@
 
 - name: "pre_task | Upload public ssh key to infra user authorized_keys"
   copy:
-    src: "{{ node_source_ssh_keyfile_pub }}"
-    dest: "/home/{{ infra_node_ssh_user }}/.ssh/authorized_keys"
-    owner: "{{ infra_node_ssh_user }}"
-    group: "{{ infra_node_ssh_user }}"
+    src: "{{node_source_ssh_keyfile_pub}}"
+    dest: "/home/{{infra_node_ssh_user}}/.ssh/authorized_keys"
+    owner: "{{infra_node_ssh_user}}"
+    group: "{{infra_node_ssh_user}}"
     mode: '0644'
   when: infra_node_ssh_user != 'root'
   tags:
@@ -54,12 +54,22 @@
 
 - name: "pre_task | Allow passwordless sudo to infra user"
   lineinfile:
-    dest: "/etc/sudoers.d/{{ infra_node_ssh_user }}"
+    dest: "/etc/sudoers.d/{{infra_node_ssh_user}}"
     state: present
     create: yes
-    regexp: '^{{ infra_node_ssh_user }}'
-    line: '{{ infra_node_ssh_user }} ALL=(ALL) NOPASSWD: ALL'
+    regexp: '^{{infra_node_ssh_user}}'
+    line: '{{infra_node_ssh_user}} ALL=(ALL) NOPASSWD: ALL'
     validate: 'visudo -cf %s'
   when: infra_node_ssh_user != 'root'
   tags:
     - pre_task
+
+- name: "configure | Upload public ssh key ed25519 to user authorized_keys"
+  copy:
+    src: "{{heketi_node_source_ssh_keyfile_pub}}"
+    dest: "/tmp"
+    owner: "{{infra_node_ssh_user}}"
+    mode: "0644"
+
+- name: "configure | Upload public ssh key ed25519 to heketi user authorized_keys"
+  shell: "cat /tmp/{{heketi_node_tmp_ssh_keyfile_pub}} >> /home/{{infra_node_ssh_user}}/.ssh/authorized_keys" 

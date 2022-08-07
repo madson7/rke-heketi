@@ -8,9 +8,9 @@ kubernetes_supported_versions:
 kubernetes_version: "1.20"
 
 rke_release: v1.2.7
-rke_binary_url: "https://github.com/rancher/rke/releases/download/{{ rke_release }}/rke_linux-amd64"
+rke_binary_url: "https://github.com/rancher/rke/releases/download/{{rke_release}}/rke_linux-amd64"
 rke_binary_checksum: sha256:e84b54da40e7e53cfd5cb3933c6aab9f027e14c39c1a0d29f90479bf3f8feeff
-rke_kubernetes_version: "{{ kubernetes_supported_versions[kubernetes_version] }}"
+rke_kubernetes_version: "{{kubernetes_supported_versions[kubernetes_version]}}"
 
 
 rke_force_configure: false
@@ -19,7 +19,7 @@ rke_force_configure: false
 
 # This is the host that will run 'rke up'
 # By default, use the first host in the play
-rke_controller_hostname: "{{ ansible_play_hosts[0] }}"
+rke_controller_hostname: "{{ansible_play_hosts[0]}}"
 
 rke_config_dir: "/home/infra"
 cluster_name: "rke"
@@ -46,15 +46,15 @@ ip_host: [
 
 # Networking configuration
 cluster_interface: "eth1"
-# cluster_interface: "{{ ansible_default_ipv4.interface }}"
-cluster_cidr: "{{ [ansible_facts[cluster_interface].ipv4.network, ansible_facts[cluster_interface].ipv4.netmask] | join('/') | ipaddr('net') }}"
+# cluster_interface: "{{ansible_default_ipv4.interface}}"
+cluster_cidr: "{{[ansible_facts[cluster_interface].ipv4.network, ansible_facts[cluster_interface].ipv4.netmask] | join('/') | ipaddr('net')}}"
 
 rke_network_config:
   plugin: canal
   options:
-    canal_iface: "{{ cluster_interface }}"
+    canal_iface: "{{cluster_interface}}"
 
 rke_ingress_config:
   provider: nginx
 
-manifests_dir: "{{ rke_config_dir | default(ansible_env.PWD) | default('/root') }}/manifests"
+manifests_dir: "{{rke_config_dir | default(ansible_env.PWD) | default('/root')}}/manifests"

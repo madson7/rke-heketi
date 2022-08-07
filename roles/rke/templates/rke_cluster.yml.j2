@@ -2,33 +2,33 @@
 # please consult the documentation on how to configure custom RKE images.
 nodes:
 {% for host in groups['ctp_etcd'] %}
-- address: {{ hostvars[host]['ansible_host'] }}
+- address: {{hostvars[host]['ansible_host']}}
   port: "22"
   internal_address: ""
   role:
-  - {{ rke_node_roles[0] }}
-  - {{ rke_node_roles[1] }}
+  - {{rke_node_roles[0]}}
+  - {{rke_node_roles[1]}}
   hostname_override: ""
-  user: {{ rke_ssh_user }}
+  user: {{rke_ssh_user}}
   docker_socket: /var/run/docker.sock
   ssh_key: ""
-  ssh_key_path: {{ rke_ssh_private_key }}
+  ssh_key_path: {{rke_ssh_private_key}}
   ssh_cert: ""
   ssh_cert_path: ""
   labels: {}
   taints: []
 {% endfor %}
 {% for host in groups['worker'] %}
-- address: {{ hostvars[host]['ansible_host'] }}
+- address: {{hostvars[host]['ansible_host']}}
   port: "22"
   internal_address: ""
   role: 
-  - {{ rke_node_roles[2] }}
+  - {{rke_node_roles[2]}}
   hostname_override: ""
-  user: {{ rke_ssh_user }}
+  user: {{rke_ssh_user}}
   docker_socket: /var/run/docker.sock
   ssh_key: ""
-  ssh_key_path: {{ rke_ssh_private_key }}
+  ssh_key_path: {{rke_ssh_private_key}}
   ssh_cert: ""
   ssh_cert_path: ""
   labels: {}
@@ -163,7 +163,7 @@ system_images:
   aci_controller_container: noiro/aci-containers-controller:5.1.1.0.1ae238a
   aci_gbp_server_container: noiro/gbp-server:5.1.1.0.1ae238a
   aci_opflex_server_container: noiro/opflex-server:5.1.1.0.1ae238a
-ssh_key_path: {{ rke_ssh_private_key }}
+ssh_key_path: {{rke_ssh_private_key}}
 ssh_cert_path: ""
 ssh_agent_auth: false
 authorization:
